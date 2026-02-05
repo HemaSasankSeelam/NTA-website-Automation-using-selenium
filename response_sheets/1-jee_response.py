@@ -88,13 +88,11 @@ class JEE_RESPONSE_SHEETS:
                     # if the duplicate login detected then we click on the logout and again enter password and enter's captcha
                     duplicate_login.click()
 
+                    time.sleep(3)
                     self.driver.implicitly_wait(time_to_wait=3) # manually wait for 3 sec
+                    
 
-                    password_field.send_keys(password) # sends password
-                    captcha_field.find_element(By.ID, "ctl00_ContentPlaceHolder1_txtsecpin").send_keys() # click on the captcha column
-
-                    # wait to fill the captcha manually 
-                    self.webdriver_wait.until(EC.visibility_of_element_located((By.ID, "ctl00_LoginContent_linkDownConfirm")))
+                    return self.main_page(application_no, password)
             
             except Exception as e:
                 pass
