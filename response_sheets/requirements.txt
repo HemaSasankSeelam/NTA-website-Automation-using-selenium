@@ -1,0 +1,5 @@
+selenium
+webdriver-manager
+pandas
+pyhtml2pdf
+pdfkit
