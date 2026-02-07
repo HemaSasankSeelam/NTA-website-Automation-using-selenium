@@ -100,6 +100,14 @@ class JEE_RESPONSE_VERIFICATION:
 
                 elif options_menu["question type :"] == "mcq" and options_menu["status :"] == "marked for review":
                     # for marked for review will not get the marks even if the answer is correct.
+
+
+                    # if you want marked for review marks marks to count
+                    # remove the answer_id = "--" and uncomment the below two lines
+
+                    # chosen_answer = int(list(options_menu.values())[-1])
+                    # answer_id = list(options_menu.values())[chosen_answer+1]
+
                     answer_id = "--"
                     answered_types.append("mcq_answered_marked_for_review")
 
