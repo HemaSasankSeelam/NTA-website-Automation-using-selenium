@@ -4,8 +4,6 @@ from selenium.common import exceptions
 import selenium.webdriver.remote.webelement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -16,8 +14,6 @@ import pandas as pd
 from pathlib import Path
 
 import traceback
-
-import sarvam_login
 
 class JeeSession1:
 
@@ -31,7 +27,6 @@ class JeeSession1:
         chrome_service = Service(executable_path=ChromeDriverManager().install())
         self.driver = webdriver.Chrome(service=chrome_service)
 
-        self.actions_chains = ActionChains(self.driver)
         self.webdriver_wait = WebDriverWait(driver=self.driver, timeout=15)
 
     def read_from_excel(self) -> None:
@@ -78,14 +73,7 @@ class JeeSession1:
 
         self.driver.find_element(by=By.ID, value="txtPassword").send_keys(password)
 
-        captcha_img_path = (self.parent_path/"captcha_image.png").as_posix()
-        img_field = self.driver.find_element(by=By.XPATH, value="//a[@id='captcha-refresh-btn']//preceding-sibling::img")
-        img_field.screenshot(captcha_img_path)
-
-        captcha_value = sarvam_login.upload_image_and_get_captcha(path=captcha_img_path)
-        self.driver.find_element(by=By.ID, value="Captcha1").send_keys(captcha_value)
-
-        self.actions_chains.send_keys(Keys.RETURN).perform() # clicks on the enter button
+        self.driver.find_element(by=By.ID, value="Captcha1").send_keys()
 
         try:
             self.webdriver_wait.until((EC.visibility_of_element_located((By.XPATH,"(//strong[normalize-space()='Physics'])[1]"))))
@@ -176,9 +164,7 @@ class JeeSession1:
         
 
 url = "https://examinationservices.nic.in/ResultoService26/JE26S1P1/Login"
-excel_path = r"C:\Users\seela\Downloads\APPLICATION NUMBER.xlsx"
-
-sarvam_login.main()
+excel_path = r"D:\2025-2026\JEE MAIN 2026\JEE Main 2026 Session 1 results - Copy\APPLICATION NUMBER.xlsx"
 
 jee_object = JeeSession1(url=url, excel_path=excel_path)
 jee_object.read_from_excel()
